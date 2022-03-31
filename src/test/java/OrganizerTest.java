@@ -91,12 +91,13 @@ public class OrganizerTest {
         organizer.addItem(Categories.WEAPONS.getSubcategories()[3]);
         organizer.addItem(Categories.HERBS.getSubcategories()[0]);
 
-        assertTrue(organizer.getBackPack().getItems().size() == 8);
-        assertTrue(organizer.getBags()[0].getItems().size() == 4);
+        assertEquals(8, organizer.getBackPack().getItems().size());
+        assertEquals(4, organizer.getBags()[0].getItems().size());
     }
 
     @Test
     void shouldOrganize12ItemsIn2CategorizedBagsAndBackPack() {
+        //arrange
         organizer.addItem(Categories.METALS.getSubcategories()[0]);
         organizer.addItem(Categories.METALS.getSubcategories()[1]);
         organizer.addItem(Categories.METALS.getSubcategories()[2]);
@@ -112,15 +113,16 @@ public class OrganizerTest {
         organizer.addItem(Categories.WEAPONS.getSubcategories()[3]);
 
         organizer.addItem(Categories.HERBS.getSubcategories()[0]);
+//act
+        organizer.organize();
 
-    organizer.organize();
+//assert
+        Bag metalsBag = organizer.getBags()[0];
+        Bag weaponsBag = organizer.getBags()[1];
+        assertEquals(4, metalsBag.getItems().size());
+        assertEquals(4, weaponsBag.getItems().size());
+        assertEquals(4, organizer.getBackPack().getItems().size());
 
-
-    Bag metalsBag = organizer.getBags()[0];
-    Bag weaponsBag = organizer.getBags()[1];
-    assertEquals(4,organizer.getBackPack().getItems().size());
-    assertEquals(4,metalsBag.getItems().size());
-    assertEquals(4,weaponsBag.getItems().size());
 
     }
 }
