@@ -22,18 +22,20 @@ public class Organizer {
     }
 
     public void addItem(String item) {
+
         if (this.getBackPack().getSize() < 8) {
             this.getBackPack().addItem(item);
         } else {
             //check bags
             Bag[] tempBags = this.getBags();
             for (int i = 0; i < tempBags.length; i++) {
-                Bag bag = tempBags[i];
-                if (!bag.isFull()) {
-                    bag.addItemToBag(item);
-                    tempBags[i] = bag;
+                if (!tempBags[i].isFull()) {
+                    tempBags[i].addItemToBag(item);
                     break;
+                } else if (i == tempBags.length - 1) {
+                    throw new IllegalStateException("No more room in the backpack for :" + item);
                 }
+
             }
         }
     }
@@ -70,8 +72,9 @@ public class Organizer {
             } else if (!this.getBags()[3].isFull()) {
                 this.getBags()[3].addItemToBag(item);
             } else {
-                System.out.println("No room for " + item);
+                throw new IllegalStateException("You shouldnt be here, NEVER " + item);
             }
+
         }
     }
 }

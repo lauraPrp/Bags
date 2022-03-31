@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class OrganizerTest {
+ class OrganizerTest {
     Organizer organizer;
 
     @BeforeEach
@@ -125,6 +125,51 @@ public class OrganizerTest {
 
 
     }
+
+    @Test
+    void shouldFillAllBAgsAndThrowAnIllegalStateException(){
+        organizer.addItem(Categories.METALS.getSubcategories()[0]);
+        organizer.addItem(Categories.METALS.getSubcategories()[1]);
+        organizer.addItem(Categories.METALS.getSubcategories()[2]);
+        organizer.addItem(Categories.METALS.getSubcategories()[3]);
+
+        organizer.addItem(Categories.CLOTHES.getSubcategories()[0]);
+        organizer.addItem(Categories.CLOTHES.getSubcategories()[1]);
+        organizer.addItem(Categories.CLOTHES.getSubcategories()[2]);
+        organizer.addItem(Categories.CLOTHES.getSubcategories()[3]);
+
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[0]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[1]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[2]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[3]);
+
+        organizer.addItem(Categories.HERBS.getSubcategories()[0]);
+        organizer.addItem(Categories.HERBS.getSubcategories()[1]);
+        organizer.addItem(Categories.HERBS.getSubcategories()[2]);
+        organizer.addItem(Categories.HERBS.getSubcategories()[3]);
+
+        //add 8 items to fill the backpack when organizing
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[0]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[1]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[2]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[3]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[0]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[1]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[2]);
+        organizer.addItem(Categories.WEAPONS.getSubcategories()[3]);
+//all bags are full, this will throw an error
+
+        assertThrows(IllegalStateException.class, () ->
+                organizer.addItem(Categories.HERBS.getSubcategories()[0]),
+                "No more room in the backpack for :"+Categories.HERBS.getSubcategories()[0]);
+
+
+
+
+
+
+    }
+
 }
 
 
