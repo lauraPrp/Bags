@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Organizer {
     private Backpack backpack;
@@ -74,6 +75,11 @@ public class Organizer {
             } else {
                 throw new IllegalStateException("You shouldnt be here, NEVER " + item);
             }
+            Collections.sort(this.getBackPack().getItems());
+            Collections.sort(this.getBags()[0].getItems());
+            Collections.sort(this.getBags()[1].getItems());
+            Collections.sort(this.getBags()[2].getItems());
+            Collections.sort(this.getBags()[3].getItems());
 
         }
     }

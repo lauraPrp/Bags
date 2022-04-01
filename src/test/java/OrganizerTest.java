@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
- class OrganizerTest {
+class OrganizerTest {
     Organizer organizer;
 
     @BeforeEach
@@ -24,6 +24,10 @@ import static org.junit.jupiter.api.Assertions.*;
         assertEquals(1, organizer.getBackPack().getItems().size());
         assertEquals(firstItem, organizer.getBackPack().getItems().get(0));
         assertEquals(0, organizer.getBags()[0].getItems().size());
+        assertEquals(0, organizer.getBags()[1].getItems().size());
+        assertEquals(0, organizer.getBags()[2].getItems().size());
+        assertEquals(0, organizer.getBags()[3].getItems().size());
+
     }
 
     @Test
@@ -86,6 +90,7 @@ import static org.junit.jupiter.api.Assertions.*;
         organizer.addItem(Categories.CLOTHES.getSubcategories()[1]);
         organizer.addItem(Categories.CLOTHES.getSubcategories()[2]);
         organizer.addItem(Categories.WEAPONS.getSubcategories()[0]);
+
         organizer.addItem(Categories.WEAPONS.getSubcategories()[1]);
         organizer.addItem(Categories.WEAPONS.getSubcategories()[2]);
         organizer.addItem(Categories.WEAPONS.getSubcategories()[3]);
@@ -93,11 +98,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
         assertEquals(8, organizer.getBackPack().getItems().size());
         assertEquals(4, organizer.getBags()[0].getItems().size());
+        assertEquals(0, organizer.getBags()[1].getItems().size());
+        assertEquals(0, organizer.getBags()[2].getItems().size());
+        assertEquals(0, organizer.getBags()[3].getItems().size());
+
+        assertEquals(Categories.METALS.getSubcategories()[0], organizer.getBackPack().getItems().get(0));
+        assertEquals(Categories.WEAPONS.getSubcategories()[0], organizer.getBackPack().getItems().get(7));
+
+        assertEquals(Categories.WEAPONS.getSubcategories()[1], organizer.getBags()[0].getItems().get(0));
+        assertEquals(Categories.HERBS.getSubcategories()[0], organizer.getBags()[0].getItems().get(3));
+
     }
 
     @Test
     void shouldOrganize12ItemsIn2CategorizedBagsAndBackPack() {
-        //arrange
+        //act
         organizer.addItem(Categories.METALS.getSubcategories()[0]);
         organizer.addItem(Categories.METALS.getSubcategories()[1]);
         organizer.addItem(Categories.METALS.getSubcategories()[2]);
@@ -113,7 +128,7 @@ import static org.junit.jupiter.api.Assertions.*;
         organizer.addItem(Categories.WEAPONS.getSubcategories()[3]);
 
         organizer.addItem(Categories.HERBS.getSubcategories()[0]);
-//act
+
         organizer.organize();
 
 //assert
@@ -127,7 +142,7 @@ import static org.junit.jupiter.api.Assertions.*;
     }
 
     @Test
-    void shouldFillAllBAgsAndThrowAnIllegalStateException(){
+    void shouldFillAllBAgsAndThrowAnIllegalStateException() {
         organizer.addItem(Categories.METALS.getSubcategories()[0]);
         organizer.addItem(Categories.METALS.getSubcategories()[1]);
         organizer.addItem(Categories.METALS.getSubcategories()[2]);
@@ -160,14 +175,34 @@ import static org.junit.jupiter.api.Assertions.*;
 //all bags are full, this will throw an error
 
         assertThrows(IllegalStateException.class, () ->
-                organizer.addItem(Categories.HERBS.getSubcategories()[0]),
-                "No more room in the backpack for :"+Categories.HERBS.getSubcategories()[0]);
+                        organizer.addItem(Categories.HERBS.getSubcategories()[0]),
+                "No more room in the backpack for :" + Categories.HERBS.getSubcategories()[0]);
+    }
+
+    @Test
+    void organizeSpellShouldArrangeItemsInAlphabeticalOrder() {
+        organizer.addItem(Categories.METALS.getSubcategories()[3]);
+        organizer.addItem(Categories.METALS.getSubcategories()[1]);
+        organizer.addItem(Categories.METALS.getSubcategories()[0]);
+        organizer.addItem(Categories.METALS.getSubcategories()[2]);
+
+        organizer.addItem(Categories.CLOTHES.getSubcategories()[3]);
+        organizer.addItem(Categories.METALS.getSubcategories()[3]);
+        organizer.addItem(Categories.METALS.getSubcategories()[1]);
+        organizer.addItem(Categories.CLOTHES.getSubcategories()[1]);
+
+        organizer.organize();
 
 
+        assertEquals(Categories.METALS.getSubcategories()[0], organizer.getBags()[0].getItems().get(0));
+        assertEquals(Categories.METALS.getSubcategories()[1], organizer.getBags()[0].getItems().get(1));
+        assertEquals(Categories.METALS.getSubcategories()[2], organizer.getBags()[0].getItems().get(2));
+        assertEquals(Categories.METALS.getSubcategories()[3], organizer.getBags()[0].getItems().get(3));
 
-
-
-
+        assertEquals(Categories.METALS.getSubcategories()[1], organizer.getBackPack().getItems().get(0));
+        assertEquals(Categories.CLOTHES.getSubcategories()[1], organizer.getBackPack().getItems().get(1));
+        assertEquals(Categories.METALS.getSubcategories()[3], organizer.getBackPack().getItems().get(2));
+        assertEquals(Categories.CLOTHES.getSubcategories()[3], organizer.getBackPack().getItems().get(3));
     }
 
 }
